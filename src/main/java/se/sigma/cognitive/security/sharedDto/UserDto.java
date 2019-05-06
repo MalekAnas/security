@@ -1,5 +1,6 @@
 package se.sigma.cognitive.security.sharedDto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,14 +10,15 @@ import java.io.Serializable;
  *
  */
 
+
 @Getter
 @Setter
 public class UserDto implements Serializable {
 
 
     //to check an object's state between before and after its serialization
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = -5392435647046303882L;
 
 
     private long id;

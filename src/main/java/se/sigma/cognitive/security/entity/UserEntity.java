@@ -3,39 +3,71 @@ package se.sigma.cognitive.security.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
-
+import java.util.Collection;
 
 @Getter
 @Setter
 @Entity(name = "users")
 public class UserEntity implements Serializable {
 
-    private static final long serialVersionUID = -2892605918932587188L;
-
 
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-
-    @Column(nullable = false)
-    private String userId;
-
-    @Column(nullable = false, length = 50)
     private String firstName;
-    @Column(nullable = false, length = 50)
     private String lastName;
-    @Column(nullable = false, length = 150, unique = true)
     private String email;
-    @Column(nullable = false)
-    private String encryptedPassword;
+    private String password;
 
-    private String emailVerificationToken;
-    @Column(nullable = true , columnDefinition = "boolean default false")
-    private Boolean emailVerificationStatus;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
+
+    public UserEntity() {
+    }
+
+    public UserEntity(String firstName, String lastName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
+
+    public UserEntity(String firstName, String lastName, String email, String password, Collection<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
+
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + "*********" + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 }

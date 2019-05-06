@@ -10,7 +10,7 @@ import se.sigma.cognitive.security.service.UserService;
 import se.sigma.cognitive.security.sharedDto.UserDto;
 
 @RestController
-@RequestMapping("users")           //http://localhost:8080/super/dashboard
+@RequestMapping("/users")           //http://localhost:8080/super/dashboard
 public class SuperUserController {
 
     @Autowired
@@ -41,9 +41,9 @@ public class SuperUserController {
     }
 
 
-    @PutMapping
+    @GetMapping
     public String updateUser() {
-        return "updateUser called";
+        return "Get s called";
     }
 
 
